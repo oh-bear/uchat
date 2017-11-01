@@ -1,1 +1,2 @@
 export const SCENE_LOGIN = 'LOGIN'
+export const SCENE_SPLASH_SCREEN = 'SPLASH_SCREEN'

@@ -1,20 +1,23 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import {
   View
 } from 'react-native'
 import RNSplashScreen from 'react-native-splash-screen'
-import { Actions } from 'react-native-router-flux'
-import { SCENE_INDEX, SCENE_LOGIN } from './constants/scene'
+import {Actions} from 'react-native-router-flux'
+import {SCENE_INDEX, SCENE_LOGIN} from './constants/scene'
 import Storage from './common/storage'
-import { setApiBaseUrl, setToken } from './network/HttpUtils'
-import login from './network/login'
+import {setApiBaseUrl, setToken} from './network/HttpUtils'
 import Toast from 'antd-mobile/lib/toast'
-import { connect } from 'react-redux'
-import { delay } from 'redux-saga'
+import {connect} from 'react-redux'
+import {delay} from 'redux-saga'
 import initApp from './redux/modules/init'
-import {isDev} from './common/util';
+import {isDev} from './common/util'
+import {USERS} from './network/Urls'
+import HttpUtils from './network/HttpUtils'
 
-function mapStateToProps (state) {
+const URL = USERS.login
+
+function mapStateToProps(state) {
   return {
     user: state.user
   }
@@ -23,7 +26,7 @@ function mapStateToProps (state) {
 @connect(mapStateToProps)
 class SplashScreen extends Component {
 
-  async componentDidMount () {
+  async componentDidMount() {
     const user = await Storage.get('user', {})
     if (!user.account || !user.password) {
       Actions[SCENE_LOGIN]()
@@ -48,8 +51,12 @@ class SplashScreen extends Component {
     this.props.dispatch(initApp())
 
     try {
-      login(user.account, user.password)
-      Actions[SCENE_INDEX]()
+      HttpUtils.post(URL, {account: user.account, password: user.password}).then(
+        res => {
+          Actions[SCENE_INDEX]()
+        }
+      )
+
     } catch (e) {
       console.log(e)
       Toast.fail('自动登录失败', 1.5)
@@ -59,7 +66,7 @@ class SplashScreen extends Component {
     RNSplashScreen.hide()
   }
 
-  render () {
+  render() {
     return <View />
   }
 }
@@ -96,5 +103,6 @@ if (!(console.timeEnd instanceof Function)) {
 }
 
 if (!global.URL) {
-  global.URL = function () {}
+  global.URL = function () {
+  }
 }

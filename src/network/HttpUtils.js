@@ -1,7 +1,4 @@
 import axios from 'axios'
-import { isDev } from '../common/util'
-import configureResponseError from './interceptors/response_error'
-import configureTimeout from './interceptors/timeout'
 
 let defaultData = {
   uid: '',
@@ -18,23 +15,6 @@ export function setToken(data) {
 
 let baseUrl = 'http://localhost:9093'
 
-axios.interceptors.response.use(null, configureResponseError)
-axios.interceptors.request.use(configureTimeout, null)
-
-axios.interceptors.response.use((response) => {
-  if (isDev) {
-    const api = new URL(response.config.url)
-    console.log(api.pathname, response)
-  }
-  return response
-}, error => {
-  if (isDev) {
-    const api = new URL(error.config.url)
-    console.log(api.pathname, error)
-  }
-  return Promise.reject(error)
-})
-
 axios.defaults.timeout = 20000
 
 export default class HttpUtils {
@@ -46,12 +26,13 @@ export default class HttpUtils {
 
   static post(url, data) {
     url = baseUrl + url
-    
+
     data = {
       ...defaultData,
       ...data
     }
 
+    console.log(data)
     return axios.post(url, data)
       .then(response => response.data)
       .catch(error => console.dir(error))
