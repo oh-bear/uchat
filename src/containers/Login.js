@@ -21,6 +21,8 @@ import {
 import Toast from 'antd-mobile/lib/toast'
 import Storage from '../common/storage'
 import loading from '../common/loading'
+import {SCENE_INDEX} from '../constants/scene'
+import {Actions} from 'react-native-router-flux'
 import {USERS} from '../network/Urls'
 import HttpUtils from '../network/HttpUtils'
 
@@ -32,8 +34,6 @@ export default class Login extends Component {
 
   onSubmit = async () => {
 
-    console.log('submit')
-
     const {
       account,
       password
@@ -44,12 +44,8 @@ export default class Login extends Component {
       password
     }).then(res => {
       console.log(res)
-      Actions[SCENE_INDEX]({user: response.data})
+      Actions[SCENE_INDEX]({user: res.data})
     })
-
-    if (!this.validatePassed) {
-      return
-    }
   }
 
   render() {

@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
-import LoginPage from './containers/Login'
+import Login from './containers/Login'
+import Index from './containers/Index'
 
 import {Scene, Router, ActionConst} from 'react-native-router-flux'
 import * as scenes from './constants/scene'
@@ -23,11 +24,19 @@ export default class AppRouter extends Component {
             />
             <Scene
               key={scenes.SCENE_LOGIN}
-              component={LoginPage}
+              component={Login}
               title="登录"
               type={ActionConst.RESET}
               duration={0}
               hideNavBar
+            />
+            <Scene
+              key={scenes.SCENE_INDEX}
+              component={Index}
+              title="首页"
+              type={ActionConst.REPLACE}
+              hideNavBar
+              duration={0}
             />
           </Scene>
         </Router>

@@ -32,7 +32,6 @@ export default class HttpUtils {
       ...data
     }
 
-    console.log(data)
     return axios.post(url, data)
       .then(response => response.data)
       .catch(error => console.dir(error))
