@@ -1,4 +1,4 @@
-export default function initApp () {
+export default function initApp() {
   return (dispatch) => {
   }
 }

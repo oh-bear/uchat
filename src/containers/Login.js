@@ -28,10 +28,7 @@ const URL = USERS.login
 
 export default class Login extends Component {
 
-  state = {
-    account: '',
-    password: ''
-  }
+  state = {account: '', password: ''}
 
   onSubmit = async () => {
 
@@ -58,10 +55,8 @@ export default class Login extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Image style={styles.bg}
-               source={require('../../res/images/bg_sign.png')}>
-          <Image style={styles.card}
-                 source={require('../../res/images/card_sign.png')}>
+        <Image style={styles.bg} source={require('../../res/images/bg_sign.png')}>
+          <Image style={styles.card} source={require('../../res/images/card_sign.png')}>
             <View style={styles.switch_container}>
               <TextPingFang style={styles.switch_login}>登录</TextPingFang>
               <TextPingFang style={styles.switch_register}>注册</TextPingFang>

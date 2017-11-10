@@ -1,4 +1,4 @@
-import React, {Component} from 'React'
+import React, {Component} from 'react'
 import LoginPage from './containers/Login'
 
 import {Scene, Router, ActionConst} from 'react-native-router-flux'

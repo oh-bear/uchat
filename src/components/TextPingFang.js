@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
-import { StyleSheet, Text } from 'react-native'
+import React, {Component} from 'react'
+import {StyleSheet, Text} from 'react-native'
 
-export default function TextPingFang (props) {
+export default function TextPingFang(props) {
 
-  const { style, children, ...restProps } = props
+  const {style, children, ...restProps} = props
 
   return (
     <Text { ...restProps } style={[styles.font, style]}>

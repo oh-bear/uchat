@@ -1,7 +1,7 @@
-import { AsyncStorage } from 'react-native'
-import { createStore, applyMiddleware } from 'redux'
-import { composeWithDevTools } from 'redux-devtools-extension'
-import { autoRehydrate, persistStore } from 'redux-persist'
+import {AsyncStorage} from 'react-native'
+import {createStore, applyMiddleware} from 'redux'
+import {composeWithDevTools} from 'redux-devtools-extension'
+import {autoRehydrate, persistStore} from 'redux-persist'
 import rootReducer from './reducers'
 import thunk from 'redux-thunk'
 

@@ -1,4 +1,4 @@
-import { createAction, handleActions } from 'redux-actions'
+import {createAction, handleActions} from 'redux-actions'
 
 const FETCH_PROFILE_SUCCESS = 'FETCH_PROFILE_SUCCESS'
 
