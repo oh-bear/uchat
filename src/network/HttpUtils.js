@@ -19,9 +19,13 @@ axios.defaults.timeout = 20000
 
 export default class HttpUtils {
 
-  static get(url) {
+  static get(url, data = {}) {
     url = baseUrl + url
-    return axios.get(url).then(response => response.data)
+    data = {
+      ...defaultData,
+      ...data
+    }
+    return axios.get(url, data).then(response => response.data)
   }
 
   static post(url, data) {

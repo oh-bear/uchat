@@ -24,7 +24,11 @@ import loading from '../common/loading'
 import {SCENE_INDEX} from '../constants/scene'
 import {Actions} from 'react-native-router-flux'
 import {USERS} from '../network/Urls'
+import {setToken} from '../network/HttpUtils'
 import HttpUtils from '../network/HttpUtils'
+import store from '../redux/store'
+import {fetchProfileSuccess} from '../redux/modules/user'
+import initApp from '../redux/modules/init'
 
 const URL = USERS.login
 
@@ -32,19 +36,42 @@ export default class Login extends Component {
 
   state = {account: '', password: ''}
 
+  componentDidMount() {
+    reLoginInterval = setInterval(async () => {
+      const user = await Storage.get('user', {})
+      if (!user.account || !user.password) {
+        return
+      }
+
+      setApiBaseUrl(schools[user.school_id].host)
+
+      try {
+        login(user.account, user.password, user.school_id)
+      } catch (e) {
+        console.log(e)
+      }
+    }, 3600 * 1000)
+  }
+
   onSubmit = async () => {
 
-    const {
-      account,
-      password
-    } = this.state
+    const {account, password} = this.state
 
     HttpUtils.post(URL, {
       account,
       password
     }).then(res => {
-      console.log(res)
-      Actions[SCENE_INDEX]({user: res.data})
+      if (res.code === 0) {
+        Storage.set('user', {...this.state})
+
+        const {uid, token, timestamp} = res.data
+        setToken({uid, token, timestamp})
+
+        store.dispatch(fetchProfileSuccess(res.data))
+        store.dispatch(initApp())
+
+        Actions[SCENE_INDEX]({user: res.data})
+      }
     })
   }
 
