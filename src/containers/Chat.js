@@ -4,23 +4,68 @@ import {
   StyleSheet,
   Text
 } from 'react-native'
-import { HEIGHT, getResponsiveHeight } from '../common/styles'
+import {HEIGHT, getResponsiveHeight} from '../common/styles'
+import {GiftedChat} from 'react-native-gifted-chat'
+import io from 'socket.io-client'
+import {connect} from 'react-redux'
 
-export default class Chat extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>Chat</Text>
-      </View>
-    )
+const socket = io('ws://localhost:9093')
+
+function mapStateToProps(state) {
+  return {
+    user: state.user
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-    backgroundColor: 'rgb(242,246,250)',
-    alignItems: 'center',
-    height: HEIGHT
+@connect(mapStateToProps)
+export default class Chat extends Component {
+  state = {
+    messages: [{
+      _id: 1,
+      text: '',
+      createdAt: new Date(),
+      user: {},
+    }],
+  };
+
+  componentWillMount() {
+    this.setState({
+      messages: [
+        {
+          _id: 1,
+          text: '',
+          user: {
+            _id: 2,
+            name: 'React Native',
+            avatar: 'https://facebook.github.io/react/img/logo_og.png',
+          },
+        },
+      ],
+    })
   }
-})
+
+  componentDidMount() {
+    socket.on('recvmsg', (data) => {
+      console.log(data.data)
+      this.setState((previousState) => ({
+        messages: GiftedChat.append(previousState.messages, data.data),
+      }))
+    })
+  }
+
+  render() {
+    return (
+      <GiftedChat
+        messages={this.state.messages}
+        showUserAvatar={true}
+        onSend={(messages) => {
+          socket.emit('sendmsg', {data: messages[0]})
+        }}
+        user={{
+          _id: this.props.user._id,
+          avatar: 'https://airing.ursb.me/image/avatar/0.png'
+        }}
+      />
+    )
+  }
+}
