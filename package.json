@@ -22,7 +22,6 @@
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-actions": "^2.2.1",
-    "redux-devtools-extension": "^2.13.2",
     "redux-persist": "^4.9.1",
     "redux-saga": "^0.15.6",
     "redux-thunk": "^2.2.0",
@@ -36,7 +35,9 @@
     "eslint": "^4.10.0",
     "eslint-plugin-react": "^7.4.0",
     "jest": "21.2.1",
-    "react-test-renderer": "16.0.0-beta.5"
+    "react-test-renderer": "16.0.0-beta.5",
+    "redux-devtools-extension": "^2.13.2",
+    "remote-redux-devtools": "^0.5.12"
   },
   "jest": {
     "preset": "react-native"

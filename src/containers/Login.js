@@ -43,10 +43,8 @@ export default class Login extends Component {
         return
       }
 
-      setApiBaseUrl(schools[user.school_id].host)
-
       try {
-        login(user.account, user.password, user.school_id)
+        onSubmit()
       } catch (e) {
         console.log(e)
       }
