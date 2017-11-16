@@ -45,10 +45,9 @@ export default class Chat extends Component {
   }
 
   componentDidMount() {
-    socket.on('recvmsg', (data) => {
-      console.log(data.data)
+    socket.on('recvmsg', (d) => {
       this.setState((previousState) => ({
-        messages: GiftedChat.append(previousState.messages, data.data),
+        messages: GiftedChat.append(previousState.messages, d.data),
       }))
     })
   }
@@ -59,7 +58,7 @@ export default class Chat extends Component {
         messages={this.state.messages}
         showUserAvatar={true}
         onSend={(messages) => {
-          socket.emit('sendmsg', {data: messages[0]})
+          socket.emit('sendmsg', {data: Object.assign({t_user: {_id: 222}}, messages[0])})
         }}
         user={{
           _id: this.props.user._id,
