@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import Login from './containers/Login'
 import Index from './containers/Index'
+import Chat from './containers/Chat'
 
 import {Scene, Router, ActionConst} from 'react-native-router-flux'
 import * as scenes from './constants/scene'
@@ -34,6 +35,14 @@ export default class AppRouter extends Component {
               key={scenes.SCENE_INDEX}
               component={Index}
               title="首页"
+              type={ActionConst.REPLACE}
+              hideNavBar
+              duration={0}
+            />
+            <Scene
+              key={scenes.SCENE_CHAT}
+              component={Chat}
+              title="聊天页面"
               type={ActionConst.REPLACE}
               hideNavBar
               duration={0}

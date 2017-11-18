@@ -4,7 +4,7 @@ import {
   StyleSheet,
   Image
 } from 'react-native'
-import Chat from './Chat'
+import Message from './Message'
 import Profile from './Profile'
 import { HEIGHT, getResponsiveHeight } from '../common/styles'
 import TabNavigator from 'react-native-tab-navigator'
@@ -26,7 +26,7 @@ export default class Index extends Component {
       ),
       selected: <Image source={require('../../res/images/Home1.png')} />
     },
-    chat: {
+    message: {
       default: (
         <Image
           style={styles.image}
@@ -65,13 +65,13 @@ export default class Index extends Component {
             <Home />
           </TabNavigator.Item>
           <TabNavigator.Item
-            selected={this.state.selectedTab === 'chat'}
+            selected={this.state.selectedTab === 'message'}
             title="消息"
-            renderIcon={() => this.icons.chat.default}
-            renderSelectedIcon={() => this.icons.chat.selected}
-            onPress={() => this.setState({ selectedTab: 'chat' })}
+            renderIcon={() => this.icons.message.default}
+            renderSelectedIcon={() => this.icons.message.selected}
+            onPress={() => this.setState({ selectedTab: 'message' })}
           >
-            <Chat />
+            <Message />
           </TabNavigator.Item>
           <TabNavigator.Item
             selected={this.state.selectedTab === 'profile'}
