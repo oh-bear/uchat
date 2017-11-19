@@ -25,7 +25,7 @@ export default class HttpUtils {
       ...defaultData,
       ...data
     }
-    return axios.get(url, data).then(response => response.data)
+    return axios.get(url, {params: data}).then(response => response.data)
   }
 
   static post(url, data) {
@@ -35,7 +35,6 @@ export default class HttpUtils {
       ...defaultData,
       ...data
     }
-
     return axios.post(url, data)
       .then(response => response.data)
       .catch(error => console.dir(error))

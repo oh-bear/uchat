@@ -8,11 +8,15 @@ import {
   TouchableHighlight
 } from 'react-native'
 import {HEIGHT, getResponsiveHeight} from '../common/styles'
+import {USERS, CHATS} from '../network/Urls'
+import HttpUtils from '../network/HttpUtils'
+
 import {SwipeListView, SwipeRow} from 'react-native-swipe-list-view'
 import {connect} from 'react-redux'
 import {Actions} from 'react-native-router-flux'
 import * as scenes from '../constants/scene'
 
+const URL_LIST = CHATS.list
 
 function mapStateToProps(state) {
   return {
@@ -27,12 +31,24 @@ export default class Message extends Component {
     super(props)
     this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
     this.state = {
-      listViewData: Array(20).fill('').map((_, i) => `item #${i}`)
+      listViewData: ['']
     }
   }
 
-  onJump = (page, title) => {
-    Actions[page]({title})
+  componentWillMount() {
+    HttpUtils.get(URL_LIST + '/' + this.props.user._id).then(
+      res => {
+        if (res.code === 0) {
+          this.setState({
+            listViewData: res.data
+          })
+        }
+      }
+    )
+  }
+
+  onJump = (page, id) => {
+    Actions[page]({id})
   }
 
   deleteRow(secId, rowId, rowMap) {
@@ -65,13 +81,13 @@ export default class Message extends Component {
               </View>
               <TouchableHighlight
                 onPress={ () => {
-                  this.onJump(scenes.SCENE_CHAT, rowId)
+                  this.onJump(scenes.SCENE_CHAT, data._id)
                 }}
                 style={styles.rowFront}
                 underlayColor={'#AAA'}
               >
                 <View>
-                  <Text>I am {data} in a SwipeListView</Text>
+                  <Text>{data.account}</Text>
                 </View>
               </TouchableHighlight>
             </SwipeRow>
