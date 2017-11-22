@@ -3,6 +3,7 @@ import {
   View,
   StyleSheet,
   Text,
+  Image,
   ListView,
   TouchableOpacity,
   TouchableHighlight
@@ -70,24 +71,23 @@ export default class Message extends Component {
               rightOpenValue={-150}
             >
               <View style={styles.rowBack}>
-                <View style={[styles.backRightBtn, styles.backRightBtnLeft]}>
-                  <Text style={styles.backTextWhite}>Right</Text>
-                </View>
                 <TouchableOpacity
                   style={[styles.backRightBtn, styles.backRightBtnRight]}
                   onPress={ () => this.deleteRow(secId, rowId, rowMap) }>
-                  <Text style={styles.backTextWhite}>Delete</Text>
+                  <Text style={styles.backTextRed}>删除</Text>
                 </TouchableOpacity>
               </View>
               <TouchableHighlight
                 onPress={ () => {
                   this.onJump(scenes.SCENE_CHAT, data._id)
                 }}
-                style={styles.rowFront}
                 underlayColor={'#AAA'}
               >
-                <View>
-                  <Text>{data.account}</Text>
+                <View style={styles.rowFront}>
+                  <Image style={styles.avatar} source={{uri: 'https://airing.ursb.me/image/avatar/40.png'}}/>
+                  <View style={styles.content}>
+                    <Text style={styles.name}>{data.account}</Text>
+                  </View>
                 </View>
               </TouchableHighlight>
             </SwipeRow>
@@ -103,16 +103,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flex: 1
   },
-  backTextWhite: {
-    color: '#FFF'
-  },
-  rowFront: {
-    alignItems: 'center',
-    backgroundColor: '#CCC',
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
-    justifyContent: 'center',
-    height: 50,
+  backTextRed: {
+    color: '#FF4057'
   },
   rowBack: {
     alignItems: 'center',
@@ -137,5 +129,27 @@ const styles = StyleSheet.create({
   backRightBtnRight: {
     backgroundColor: 'red',
     right: 0
+  },
+  rowFront: {
+    display: 'flex',
+    flexDirection: 'row',
+    backgroundColor: '#F6F6F6',
+    height: 80,
+    padding: 16
+  },
+  avatar: {
+    width: 48,
+    height: 48,
+    borderRadius: 24
+  },
+  content: {
+    marginLeft: 16,
+    width: 192,
+    height: 48
+  },
+  name: {
+    fontFamily: 'PingFang SC',
+    color: '#333',
+    fontSize: 14
   }
 })
